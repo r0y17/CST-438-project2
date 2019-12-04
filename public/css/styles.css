@@ -1,0 +1,46 @@
+body{
+    background-image: url("https://st.depositphotos.com/1244201/4420/i/950/depositphotos_44207505-stock-photo-canvas-background.jpg");
+    text-align: center;
+}
+h1{
+    color: #DCDCDC;
+  text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+}
+nav {
+text-align: right;
+margin: 20px 0 0 ;
+padding: 10px 0;
+}
+nav a {
+  font-weight: normal;
+  padding-left: 122px;
+  padding-right: 122px;
+}
+.row {
+  display: flex;
+  padding: 0px;
+}
+
+.column {
+  flex: 25%;
+  padding: 0px;
+  
+}
+a:link {
+  color: red;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: blue;
+}
