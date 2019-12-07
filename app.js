@@ -15,6 +15,20 @@ app.get("/male", function(req, res){
     res.render("male.ejs");
 });
 
+// mines
+app.get("/female", function(req, res){
+    res.render("female.ejs");
+});
+
+
+app.get("/cart", function(req, res){
+    res.render("cart.ejs");
+});
+
+
+app.get("/login", function(req, res) {
+   res.render("login.ejs"); 
+});
 
 //starting server
 app.listen(process.env.PORT, process.env.IP, function(){

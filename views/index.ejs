@@ -3,32 +3,63 @@
     <head>
         <title>Welcome!</title>
         <link rel="stylesheet" href="/css/styles.css"/>
+        
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     </head>
         <body>
             <h1>Main Page</h1>
         </header>
         <hr/>
         <nav>
-            <a href="/">Home</a>
+            <a href="/login">Login</a>
             <a href="/male">Guys</a>
             <a href="/female">Girls</a>
             <a href="/cart">Shopping Cart</a>
         </nav>
         <br />
-        <div class="row">
-          <div class="column">
-              <img class="img"src="img/home.png" alt="homepage" >
-          </div>
-          <div class="column">
-            <img class="img"src="img/male.png" alt="male pic">
-          </div>
-          <div class="column">
-            <img class="img"src="img/female.png" alt="female picture">
-          </div>
-          <div class="column">
-            <img class="img"src="img/cart.png" alt="bags picture">
-          </div>
-        </div>
-        <br />
+     
+
+<body>
+
+<h2 class="w3-center"></h2>
+
+<div class="w3-content w3-display-container">
+  <img class="mySlides" src="https://sc02.alicdn.com/kf/UT8U6kOXm0XXXagOFbXo/Mens-liquidated-clothing.jpg" style="width:100%">
+  <img class="mySlides" src="https://yofashionboyo.files.wordpress.com/2017/02/male-and-female-fashion-3455.jpg?w=424&h=260" style="width:100%">
+  <img class="mySlides" src="http://www.tegonity.com/wp-content/uploads/2015/05/Guys-Fashion.jpg" style="width:100%">
+  <img class="mySlides" src="https://pmcfootwearnews.files.wordpress.com/2019/08/ankari-floruss-1.jpg?w=700&h=437&crop=1" style="width:100%">
+  <img class="mySlides" src="https://cdn.shopify.com/s/files/1/0293/9277/files/Collection_-_women_3_1200X.jpg?v=1561506968" style="width:100%">
+  <img class="mySlides" src="https://cdn2.boutique.humbleandrich.com/wp-content/uploads/2019/01/Don%E2%80%99t-Be-Left-Behind-Fashionistas-Here-are-the-Biggest-Spring-and-Summer-Trends-for-Women%E2%80%99s-Fashion-in-2019-Featured-Image.jpg" style="width:100%">
+  <img class="mySlides" src="http://www.fashionisers.com/wp-content/uploads/2016/02/Banana_Republic_fall_winter_2016_2017_collection_New_York_Fashion_Week1.jpg" style="width:100%">
+  
+ 
+
+  <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+  <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+</div>
+
+<script>
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  x[slideIndex-1].style.display = "block";  
+}
+</script>
+
+</body>
+</html>
         </body>
 </html>
