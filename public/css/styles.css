@@ -63,7 +63,9 @@ img{
   clear: both;
   display: table;
 }
-* {box-sizing:border-box}
+* {box-sizing:border-box;
+
+}
 
 /* Slideshow container */
 .slideshow-container {

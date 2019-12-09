@@ -1,0 +1,51 @@
+  
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/css/styles.css"/>
+        <script>
+        
+        $(document).ready(function(){
+            $(".removeItem").on("click", function(event){
+                
+                if(!confirm("Delete item?"))
+                {
+                    event.preventDefault();//prevents default behavior of the links
+                }
+                
+            });//click
+            
+        });//document ready
+        
+        
+        </script>
+    </head>
+    <body>
+        
+        <h1> Admin Section </h1>
+
+        <form action="/logout">
+          <button> Logout </button>
+        </form>
+        
+        <form action="/addItem">
+          <button> Add New Item </button>
+        </form>
+        
+        <h3>Items</h3>
+        
+        <% getAllProducts.forEach(function(products){  %>
+        
+        
+            [<a href="/updateAuthor?authorId=<%= products.authorId %>">UPDATE</a>] 
+            [<a class="removeItem" href="/deleteProducts?authorId=<%= products.authorId %>">DELETE</a>] 
+            
+            <%= author.firstName %> <%= author.lastName %> <br>
+        
+        
+        <% }) %>
+        
+    </body>
+</html>
