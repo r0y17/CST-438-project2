@@ -2,19 +2,22 @@ const express = require("express");
 const mysql   = require("mysql");
 const session = require("express-session");
 const app = express();
+var maleProductsID = [];
+var femaleProductsID = [];
 app.set("view engine", "ejs");
 app.use(express.static("public")); //folder for images, css, js
 app.use(express.urlencoded());
-app.use(session({ secret: 'any', cookie:{ maxAge: 60000}}));
+app.use(session({ secret: 'any word', cookie:{ maxAge: 600000}}));
 
 app.get("/reports", async function(req, res) {
      let info = await Reports();
+     let FAVG = await getAVG("Female");
+     let MAVG = await getAVG("Male");
+     let Fcount = await getCount("Female");
+     let Mcount = await getCount("Male");
+     let count = await Fcount[0]['COUNT(uniqueId)']+Mcount[0]['COUNT(uniqueId)'];
+     let rep = await ReportTable(FAVG[0]['AVG(price)'],MAVG[0]['AVG(price)'],count);
      res.render("reports", {"info" : info});
-});
-
-app.get("/", function(req, res){
-   res.render("index.ejs");
-   
 });
 
 
@@ -22,14 +25,14 @@ app.get("/male", async function(req, res){
     let colors = await getColors("Male");
     let clothingTypes = await getClothingType("Male");
     let maleProducts = await getAllProducts("Male");
-    res.render("male", {"colors":colors, "types":clothingTypes, "products":maleProducts});
+    res.render("maleResults", {"colors":colors, "types":clothingTypes, "products":maleProducts});
 });
 
 app.get("/female", async function(req, res){
     let colors = await getColors("Female");
     let clothingTypes = await getClothingType("Female");
     let femaleProducts = await getAllProducts("Female");
-    res.render("female", {"colors":colors, "types":clothingTypes, "products":femaleProducts});
+    res.render("femaleResults", {"colors":colors, "types":clothingTypes, "products":femaleProducts});
 });
 
 app.get("/maleResults", async function(req, res){
@@ -51,10 +54,83 @@ app.get("/femaleResults", async function(req, res){
 
 
 
-app.get("/cart", function(req, res){
-    res.render("cart.ejs");
+app.get("/cart", async function(req, res){
+    let cartItemsMale = [];
+    let cartItemsFemale = [];
+    
+    if(maleProductsID.length){
+        cartItemsMale = await getCart("Male", maleProductsID);
+        
+    }
+    if(femaleProductsID.length){
+        cartItemsFemale = await getCart("Female", femaleProductsID);
+    }
+
+    res.render("cart", {"FCart":cartItemsFemale, "MCart":cartItemsMale});
 });
 
+
+app.post("/cart", async function(req, res){
+    let cartItemsMale = [];
+    let cartItemsFemale = [];
+    
+    let idDeleteMale = req.body.maleID;
+    let idDeleteFemale = req.body.femaleID;
+    
+    if(idDeleteMale){
+      let index = maleProductsID.indexOf(parseInt(idDeleteMale));
+        if (index > -1) {
+          maleProductsID.splice(index, 1);
+        }
+    }
+    
+    if(maleProductsID.length){
+        cartItemsMale = await getCart("Male", maleProductsID);
+    }
+    
+    if(idDeleteFemale){
+      let index = femaleProductsID.indexOf(parseInt(idDeleteFemale));
+        if (index > -1) {
+          femaleProductsID.splice(index, 1);
+        }
+    }
+    
+    if(femaleProductsID.length){
+        cartItemsFemale = await getCart("Female", femaleProductsID);
+    }
+
+    res.render("cart", {"FCart":cartItemsFemale, "MCart":cartItemsMale});
+    
+});
+
+app.get("/cartCheckout", function(req, res){
+    maleProductsID = [];
+    femaleProductsID = [];
+    res.render("thankYou");
+});
+
+app.post("/maleAdd", async function(req, res){
+    console.log("male ");
+    if(!maleProductsID.includes(parseInt(req.body.ID))){
+        maleProductsID.push(parseInt(req.body.ID));   
+    }
+    console.log(maleProductsID);
+    res.send(true);
+});
+
+app.post("/femaleAdd", async function(req, res){
+    console.log("female ");
+    if(!femaleProductsID.includes(parseInt(req.body.ID))){
+        femaleProductsID.push(parseInt(req.body.ID));   
+    }
+    console.log(femaleProductsID);
+    res.send(true);
+});
+
+
+app.get("/", function(req, res){
+   res.render("index.ejs");
+});
 
 app.get("/items",async function(req, res) {
         if (req.session.authenticated) { //if user hasn't authenticated, sending them to login screen
@@ -198,29 +274,6 @@ app.get("/deleteItem", async function(req,res){
     res.render("admin", {"maleProducts":maleProducts, "femaleProducts":femaleProducts});
     
 });
-
-// function deleteItemM(uniqueId){
-//      let conn = dbConnection();
-    
-//     return new Promise(function(resolve, reject){
-//         conn.connect(function(err) {
-//           if (err) throw err;
-//           console.log("Connected!");
-        
-//           let sql = `DELETE FROM MaleProducts
-//                       WHERE uniqueId = ?`;
-        
-//           conn.query(sql, [uniqueId], function (err, rows, fields) {
-//               if (err) throw err;
-//               //res.send(rows);
-//               conn.end();
-//               resolve(rows);
-//           });
-        
-//         });//connect
-//     });//promise 
-// }
-
 function insertItem(body) {
      let conn = dbConnection();
     
@@ -229,7 +282,7 @@ function insertItem(body) {
            if (err) throw err;
            console.log("Connected!");
         
-           let sql = `INSERT INTO MaleProducts
+           let sql = `INSERT INTO ${body.gender}Products
            (typeClothing,price,color, imageLink)
            VALUES (?,?,?,?)`;
         
@@ -346,8 +399,6 @@ function deleteItem(uniqueId, gender){
     });//promise 
 }
 
-
-
 function getColors(gender){
     let conn = dbConnection();
     
@@ -389,30 +440,6 @@ function getClothingType(gender){
               conn.end();
               resolve(rows);
            });
-        
-        });//connect
-    });//promise
-}
-
-function Reports(){
-    let conn = dbConnection();
-    
-    return new Promise(function(resolve, reject){
-        conn.connect(function(err) {
-          if (err) throw err;
-          console.log("Connected!");
-          let sql = `SELECT avgPriceMale, avgPriceFemale, inventory
-                    FROM Reports
-                    WHERE id = 0`;
-        
-          console.log("SQL:", sql);
-          conn.query(sql, function (err, rows, fields) {
-              if (err) throw err;
-              //res.send(rows);
-              conn.end();
-              resolve(rows);
-          });
-          console.log("done");
         
         });//connect
     });//promise
@@ -483,6 +510,130 @@ function getFilteredProducts(gender, query){
         });//connect
     });//promise
     
+}
+
+function getCart(gender, list){
+    let conn = dbConnection();
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+          if (err) throw err;
+          console.log("Connected!");
+        
+          let sql = `SELECT uniqueId, price, color, typeClothing, imageLink
+                     FROM ${gender}Products
+                     WHERE
+                     uniqueId in (${list})`;
+                     
+          console.log("SQL:", sql);
+          conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+          });
+          console.log("done");
+        
+        });//connect
+    });//promise
+}
+
+
+
+function Reports(){
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+          if (err) throw err;
+          console.log("Connected!");
+          let sql = `SELECT avgPriceMale, avgPriceFemale, inventory
+                    FROM Reports
+                    WHERE id = 0`;
+        
+          console.log("SQL:", sql);
+          conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+          });
+          console.log("done");
+        
+        });//connect
+    });//promise
+}
+
+
+
+function getAVG(gender){
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+          if (err) throw err;
+          console.log("Connected!");
+        
+          let sql = `SELECT AVG(price)
+                     FROM ${gender}Products`;
+          console.log("SQL:", sql);
+          conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+          });
+          console.log("done");
+        
+        });//connect
+    });//promise
+}
+
+function getCount(gender){
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+          if (err) throw err;
+          console.log("Connected!");
+        
+          let sql = `SELECT COUNT(uniqueId)
+                     FROM ${gender}Products`;
+          console.log("SQL:", sql);
+          conn.query(sql, function (err, rows, fields) {
+              if (err) throw err;
+              //res.send(rows);
+              conn.end();
+              resolve(rows);
+          });
+          console.log("done");
+        
+        });//connect
+    });//promise
+}
+
+
+
+function ReportTable(FAVG,MAVG,count){
+    let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err){
+            if(err) throw err;
+            console.log("Connected!");
+            
+            let sql = `UPDATE Reports SET
+                       avgPriceMale = ${MAVG},
+                       avgPriceFemale= ${FAVG},
+                       inventory = ${count}
+                       WHERE id=0`;
+            
+            conn.query(sql, function(err, rows, field){
+                if(err) throw err;
+                conn.end();
+                resolve(rows);
+            });
+        });
+    });//Promise
 }
 
 function dbConnection(){

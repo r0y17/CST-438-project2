@@ -20,12 +20,12 @@ h1{
 nav {
 text-align: right;
 margin: 20px 0 0 ;
-padding: 10px 0;
+padding: 0px 0;
 }
 nav a {
   font-weight: normal;
-  padding-left: 122px;
-  padding-right: 122px;
+  padding-left: 115px;
+  padding-right: 115px;
 }
 .row {
   display: flex;
