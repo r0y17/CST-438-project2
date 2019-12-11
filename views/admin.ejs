@@ -24,7 +24,8 @@
     <body>
         
         <h1> Admin Section </h1>
-
+        <h2>
+            
         <form action="/logout">
           <button> Logout </button>
         </form>
@@ -36,23 +37,28 @@
           <button> Reports </button>
         </form>
         
-               <h3>Items</h3>
+               <h2>Items</h2>
         
         <% maleProducts.forEach(function(products){  %>
-        
+        <h4>
+            
             <image src=<%= products.imageLink %> ></image>
             [<a href="/updateItem?uniqueId=<%= products.uniqueId %>&gender=Male">UPDATE</a>] 
             [<a class="removeItem" href="/deleteItem?uniqueId=<%= products.uniqueId %>&gender=Male">DELETE</a>] 
             <br>
+        </h4>
         <% }) %>
         
         <% femaleProducts.forEach(function(products){  %>
-        
+        <h4>
+            
             <image src=<%= products.imageLink %> ></image>
             [<a href="/updateItem?uniqueId=<%= products.uniqueId %>&gender=Female">UPDATE</a>] 
             [<a class="removeItem" href="/deleteItem?uniqueId=<%= products.uniqueId %>&gender=Female">DELETE</a>] 
             <br>
+        </h4>
         <% }) %>
         
+        </h2>
     </body>
 </html>

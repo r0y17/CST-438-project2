@@ -10,7 +10,8 @@
         
 
         <form method="POST">
-        
+        <h2>
+            
             Color: <input type="text" name="color"><br>    
             Type: <input type="text" name="type"><br>
             Price: <input type="text" name="price"><br>
@@ -22,8 +23,12 @@
             <button>Add Item</button>
         
             <%= typeof(message) != "undefined"?message:"" %>
+        </h2>
             
-        </form>        
+        </form> 
+                <form action="/admin">
+          <h2><button> Back </button></h2>
+        </form>
 
         
     </body>
