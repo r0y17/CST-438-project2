@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/r0y17/project.git"
+    "url": "git+https://github.com/joshtrup1/CST-438-project2.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/r0y17/project/issues"
+    "url": "https://github.com/joshtrup1/CST-438-project2/issues"
   },
-  "homepage": "https://github.com/r0y17/project#readme",
+  "homepage": "https://github.com/joshtrup1/CST-438-project2#readme",
   "dependencies": {
     "ejs": "^3.0.1",
     "express": "^4.17.1",

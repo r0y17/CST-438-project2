@@ -8,7 +8,10 @@ app.set("view engine", "ejs");
 app.use(express.static("public")); //folder for images, css, js
 app.use(express.urlencoded());
 app.use(session({ secret: 'any word', cookie:{ maxAge: 600000}}));
-
+// const port = 3000; changed port name
+app.get("/lightsabers",function(req,res){
+    res.render("lightsabers.ejs");
+});
 app.get("/reports", async function(req, res) {
      let info = await Reports();
      let FAVG = await getAVG("Female");
@@ -182,6 +185,11 @@ app.post("/addItem", async function(req, res){
 
 app.get("/login", function(req, res) {
     res.render("login");
+    
+});
+
+app.get("/createAccount", function(req, res) {
+    res.render("createAccount");
     
 });
 
@@ -648,8 +656,10 @@ function dbConnection(){
 return conn;
 
 }
-
-//starting server
-app.listen(process.env.PORT, process.env.IP, function(){
-console.log("Express server is running...");
+const port = process.env.PORT || 3010; //new port server name 
+app.listen(port, process.env.IP, function(){
+console.log("Express server is running http://localhost:"+port );
 });
+
+// run node app.js
+//or nodemon app.js
