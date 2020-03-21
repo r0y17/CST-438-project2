@@ -16,6 +16,8 @@ app.use(bodyParser.json());
 
 var dataRoutes = require('./routers/userItemRoutes');
 
+app.use(express.static(__dirname + '/views'));
+
 
 app.use(require('express-session')({
     secret: "application secret shhhh",
@@ -31,6 +33,7 @@ const port = 1409;
 
 ///Routes for login
 app.get("/api/items",dataRoutes);
+
 
 app.get("/signup",(req,res)=> {
     res.render("signup");
