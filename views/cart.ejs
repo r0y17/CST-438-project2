@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<h1 >
+                <figure id="h1" >
+                    <img src="https://fontmeme.com/permalink/200312/e3ac6f4df0a4deaaf01a1a140fb7df8d.png" alt="Picture Of Wizard King" style="width:800px;height:50px;" />
+                </figure>
+            </h1>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/styles.css"/>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			
+			start();
+			
+	        $("input[type=number").change(function(){
+	        	let total = 0;
+		        $("input[type=number]").each(function() {
+		            let id;
+		        	if($(this).attr("id").length > 10) {
+		        		id = $(this).attr("id").slice(-3);
+		        	} else {
+		        		id = $(this).attr("id").slice(-2);
+		        	}
+		            let price = parseFloat($(`#price${id}`).text());
+		            total+= parseFloat((price * $(this).val()).toFixed(2));
+		        });
+		        $("#totalPrice").html('$' + total);
+	        });
+	        
+	        function start(){
+				let total = 0;
+		        $("input[type=number]").each(function() {
+		        	let id;
+		        	if($(this).attr("id").length > 10) {
+		        		id = $(this).attr("id").slice(-3);
+		        	} else {
+		        		id = $(this).attr("id").slice(-2);
+		        	}
+		            let price = parseFloat($(`#price${id}`).text());
+		            total+= parseFloat((price * $(this).val()).toFixed(2));
+		        });
+		        $("#totalPrice").html('$' + total);
+			}
+    	});//ready
+	</script>
+</head>
+<body>
+	<nav>
+        <a href="/">Home</a>
+        <a href="/login">Login</a>
+        <a href="/lightsabers">Lightsabers</a>
+        <a href="/cart">Shopping Cart</a>
+	</nav>
+	<main class="page">
+	 	<section class="shopping-cart dark">
+	 		<div class="container">
+		        <div class="block-heading">
+		          <h2>Shopping Cart</h2>
+
+		        </div>
+		        <div class="content">
+	 				<div class="row">
+	 					<div class="col-md-12 col-lg-8">
+	 						<div class="items">
+	 							<% MCart.forEach(function(i){ %>
+	        						<div class="product">
+					 					<div class="row">
+						 					<div class="col-md-3">
+						 						<img class="img-fluid mx-auto d-block image" src="<%= i.imageLink %>">
+						 					</div>
+						 					<div class="col-md-8">
+						 						<div class="info">
+							 						<div class="row">
+								 						<div class="col-md-5 product-name">
+								 							<div class="product-name">
+									 							<div class="product-info">
+										 							<div>Color: <span class="value"> <%= i.color %> </span></div>
+										 							<div>Style <span class="value"> <%= i.typeClothing %> </span></div>
+										 						</div>
+										 					</div>
+								 						</div>
+								 						<div class="col-md-4 quantity">
+								 							<label for="quantity">Quantity:</label>
+								 							<input id="quantityM<%=i.uniqueId%>" type="number" value ="1" class="form-control quantity-input" min=1>
+								 						</div>
+								 						<div class="col-md-3 price">
+								 							<span id="priceM<%=i.uniqueId%>"> <%= i.price %> </span>
+								 						</div>
+								 						<form method="POST">
+								 							<button value="<%=i.uniqueId%>" name="maleID"> Delete Item </button>
+								 						</form>
+								 					</div>
+								 				</div>
+						 					</div>
+						 				</div>
+					 				</div>
+								<% }); %>
+								
+								<% FCart.forEach(function(i){ %>
+	        						<div class="product">
+					 					<div class="row">
+						 					<div class="col-md-3">
+						 						<img class="img-fluid mx-auto d-block image" src="<%= i.imageLink %>">
+						 					</div>
+						 					<div class="col-md-8">
+						 						<div class="info">
+							 						<div class="row">
+								 						<div class="col-md-5 product-name">
+								 							<div class="product-name">
+									 							<div class="product-info">
+										 							<div>Color: <span class="value"> <%= i.color %> </span></div>
+										 							<div>Style <span class="value"> <%= i.typeClothing %> </span></div>
+										 						</div>
+										 					</div>
+								 						</div>
+								 						<div class="col-md-4 quantity">
+								 							<label for="quantity">Quantity:</label>
+								 							<input id="quantityF<%=i.uniqueId%>" type="number" value ="1" class="form-control quantity-input" min=1>
+								 						</div>
+								 						<div class="col-md-3 price">
+								 							<span id="priceF<%=i.uniqueId%>"> <%= i.price %> </span>
+								 						</div>
+								 						<form method="POST">
+								 							<button value="<%=i.uniqueId%>" name="femaleID"> Delete Item </button>
+								 						</form>
+								 					</div>
+								 				</div>
+						 					</div>
+						 				</div>
+					 				</div>
+								<% }); %>
+								
+				 			</div>
+			 			</div>
+			 			<div class="col-md-12 col-lg-4">
+			 				<figure class="summary">
+			 					<h3>Summary</h3>
+			 					<figure class="summary-item"> Subtotal: <span id="totalPrice" class="price"> 0</span></figure>
+			 					<form action="/cartCheckout">
+			 						<button class="btn btn-primary btn-lg btn-block">Checkout</button>
+			 					</form>
+				 			</figure>
+			 			</div>
+		 			</div> 
+		 		</div>
+	 		</div>
+		</section>
+	</main>
+</body>
+</html>

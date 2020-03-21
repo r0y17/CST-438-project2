@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> </title>
+        <link rel="stylesheet" href="/css/styles.css"/>
+    </head>
+    <body>
+
+        <h1> Adding New Item </h1>
+        
+
+        <form method="POST">
+        <h2>
+            
+            Color: <input type="text" name="color"
+                    value="<%= itemInfo[0].color %>"><br>    
+            Type: <input type="text" name="type"
+                    value="<%= itemInfo[0].typeClothing %>"><br>
+            Price: <input type="text" name="price"
+                    value="<%= itemInfo[0].price %>"><br>
+            Image Link:<input type="text" name="link"
+                    value="<%= itemInfo[0].imageLink %>"><br>
+            
+            <input type="hidden" name="gender" value="<%= gender %>">
+            
+            <input type="hidden" name="itemId" value="<%= itemInfo[0].uniqueId %>">
+            <br><br>
+            <button>Update Item</button>
+        
+            <%= typeof(message) != "undefined"?message:"" %>
+            
+        </h2>
+        </form>       
+        <form action="/admin">
+          <h2><button id="back"> Back </button></h2>
+        </form>
+
+        
+    </body>
+</html>

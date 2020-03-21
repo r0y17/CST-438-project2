@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Admin Login Screen </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/css/styles.css"/>
+<script>
+        $(document).ready(function() {
+            $("#loginBtn").on("click",function(){
+                $.ajax({
+                    method: "post",
+                    url: "/loginProcess",
+                    dataType: "json",
+                    data: { "username" : $("#username").val(),
+                            "password" : $("#password").val()},
+                    success: function(result,status) {
+                //alert(result);
+                    if(!result){
+                       alert("Wrong credentials!") 
+                    }else{
+                        location.href = "/admin";
+                    }
+                }
+                
+                });//ajax
+            });//click
+        }); //document.ready
+        $(document).ready(function() {
+            $("#loginBtn2").on("click",function(){
+                $.ajax({
+                    method: "post",
+                    url: "/loginProcess",
+                    dataType: "json",
+                    data: { "username" : $("#username").val(),
+                            "password" : $("#password").val()},
+                    success: function(result,status) {
+                //alert(result);
+                    if(!result){
+                       alert("Wrong credentials!") 
+                    }else{
+                        location.href = "/";
+                    }
+                }
+                
+                });//ajax
+            });//click
+        }); //document.ready
+        $(document).ready(function() {
+            $("#back").on("click",function(){
+                location.href = "/";
+            });//click
+        }); //document.ready
+</script>
+    </head>
+    
+    <h1 >
+        <figure id="h1" >
+                <img src="https://fontmeme.com/permalink/200312/e3ac6f4df0a4deaaf01a1a140fb7df8d.png" style="width:800px;height:50px;" />
+        </figure>
+    </h1>
+    
+    <nav>
+        <a href="/">Home </a>
+        <a href="/login">Login</a>
+        <a href="/lightsabers">Lightsabers</a>
+        <a href="/cart">Shopping Cart</a>
+    </nav>
+    <br />
+    
+    <body id = "lo">
+        <div style="text-align: center;">
+           <span style="margin:auto; display:table; border:1px;">
+                <img src="https://comicvine1.cbsistatic.com/uploads/original/11112/111126656/3947276-darth_vader_by_zaratus.jpg" style="padding-left:10px;float:left;"> 
+                <i style="float:left; padding-left:10px;"> 
+                    <div id:"welcomeText">
+                        Admin Login<br>
+                        Username: <input type="text" name="username" id="username"/><br>
+                        Password: <input type="password" id="password"><br>
+                        <button class="myButton" id="loginBtn">Login!</button><br><br>
+                        User Login<br>
+                        Username: <input type="text" name="username2" id="username2"/><br>
+                        Password: <input type="password" id="password2"><br>
+                        <button class="myButton" id="loginBtn2">Login!</button><br><br>
+                    
+                        <form action="/createAccount">
+                            <button class="myButton">Create a New Account</button>
+                    </div>
+                </i>
+                <img src="https://comicvine1.cbsistatic.com/uploads/scale_small/11/119711/2710269-luke.jpg" style="margin-left:10px;float:left;">
+            </span>            
+        </div>
+    </body>
+</html>

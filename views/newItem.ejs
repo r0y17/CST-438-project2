@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> </title>
+        <link rel="stylesheet" href="/css/styles.css"/>
+    </head>
+    <body>
+
+        <h1> Adding New Item </h1>
+        
+
+        <form method="POST">
+        <h2>
+            
+            Color: <input type="text" name="color"><br>    
+            Type: <input type="text" name="type"><br>
+            Price: <input type="text" name="price"><br>
+            Image Link:<input type="text" name="link"><br>
+            Gender:  <input type="radio" name="gender" value="Female">Female
+                     <input type="radio" name="gender" value="Male">Male
+        
+            <br><br>
+            <button>Add Item</button>
+        
+            <%= typeof(message) != "undefined"?message:"" %>
+        </h2>
+            
+        </form> 
+                <form action="/admin">
+          <h2><button> Back </button></h2>
+        </form>
+
+        
+    </body>
+</html>
